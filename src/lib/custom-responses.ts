@@ -1,15 +1,11 @@
 "use strict";
 
-const customResponses = module.exports;
-const logger = require("./logger");
+import logger = require("./logger");
 const allResponses = new Map();
 
 allResponses.set("incoming-webhooks", new Map());
-allResponses.set("interactive-buttons", new Map());
-allResponses.set("slash-commands", new Map());
-allResponses.set("web", new Map());
 
-customResponses.set = function(type, opts) {
+export function set(type: string, opts: { url: string; statusCode: any; body: any; headers: any; }) {
   const typeResponses = allResponses.get(type);
   if (!opts.url) {
     opts.url = "any";
@@ -31,13 +27,9 @@ customResponses.set = function(type, opts) {
   });
 };
 
-customResponses.get = function(type, url) {
+export function get(type: string, url: string){
   const defaultResponse = { statusCode: 200, body: "OK", headers: {} };
   let response = defaultResponse;
-
-  if (type === "web") {
-    defaultResponse.body = { ok: true };
-  }
 
   let urlResponses = allResponses.get(type).get(url);
   if (!urlResponses) {
@@ -52,12 +44,12 @@ customResponses.get = function(type, url) {
   return [response.statusCode, response.body, response.headers];
 };
 
-customResponses.reset = function(type) {
+export function reset(type: string){
   logger.debug(`clearing responses for ${type}`);
   allResponses.get(type).clear();
 };
 
-customResponses.resetAll = function() {
+export function resetAll(){
   for (const key of allResponses.keys()) {
     logger.debug(`clearing responses for ${key}`);
     allResponses.get(key).clear();

@@ -1,10 +1,10 @@
 "use strict";
 
 const incomingWebhooks = module.exports;
-const nock = require("nock");
-const customResponses = require("../lib/custom-responses");
-const utils = require("../lib/utils");
-const logger = require("../lib/logger");
+import nock = require("nock");
+import customResponses = require("../lib/custom-responses");
+import logger = require("../lib/logger");
+import utils = require("../lib/utils");
 const baseUrl = "https://hooks.slack.com";
 
 // Slack accepts both GET and POST requests, will intercept API and OAuth calls

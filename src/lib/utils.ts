@@ -1,10 +1,10 @@
 "use strict";
 
 const utils = module.exports;
-const qs = require("qs");
-const logger = require("./logger");
+import qs = require("qs");
+import logger = require("./logger");
 
-utils.parseParams = function(path, requestBody) {
+export default function parseParams(path: string, requestBody: string) {
   let body = requestBody;
   let queryString = {};
   const pathParts = path.split("?");
