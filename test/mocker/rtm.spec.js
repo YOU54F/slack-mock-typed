@@ -260,14 +260,13 @@ describe('mocker: rtm', function () {
         })
     })
 
-    it('should re-create a server after server is stopped', function () {
+    it('shouldnt re-create a server after server is stopped', function () {
       return rtm.stopServer(token)
         .then(() => {
           wsMock.Server.reset()
-          rtm._.addToken('abc123')
         })
         .then(() => {
-          expect(wsMock.Server).to.have.been.calledOnce
+          expect(wsMock.Server).to.not.have.been.calledOnce
         })
     })
 
