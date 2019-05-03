@@ -3,8 +3,7 @@
 const winston = require('winston')
 
 // log levels: error, warn, info, verbose, debug, silly
-module.exports = new winston.createLogger({
-  // eslint-disable-line 
+module.exports = new winston.createLogger({ // eslint-disable-line 
   transports: [
     new (winston.transports.Console)({
       format: winston.format.cli(),
@@ -24,5 +23,5 @@ module.exports = new winston.createLogger({
         return `slack-mock ${options.level.toUpperCase()} ${message}`
       }
     })
-  ]}
+  ] }
 )

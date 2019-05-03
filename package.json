@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "pretest": "standard index.js src/*.js src/**/*.js test/*.js test/**/*.js examples/**/*.js --fix",
-    "test": "nyc _mocha --recursive ./test/",
+    "test": "nyc --reporter=lcov --report-dir=coverage _mocha --recursive ./test/",
     "examples": "SLACK_TOKEN='single-team-1' mocha --recursive ./examples/test/ ",
     "ci": "npm test && cat ./coverage/lcov.info | coveralls"
   },
@@ -41,7 +41,8 @@
     "qs": "^6.7.0",
     "request": "^2.88.0",
     "winston": "^3.2.1",
-    "ws": "^7.0.0"
+    "ws": "^7.0.0",
+    "standard": "^8.5.0"
   },
   "devDependencies": {
     "body-parser": "^1.19.0",
@@ -52,8 +53,7 @@
     "mocha": "^6.1.4",
     "proxyquire": "^2.1.0",
     "sinon": "^7.3.2",
-    "sinon-chai": "^3.3.0",
-    "standard": "^8.5.0"
+    "sinon-chai": "^3.3.0"
   },
   "standard": {
     "globals": [
