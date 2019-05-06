@@ -63,6 +63,7 @@ declare namespace SlackMock {
         addResponse: (opts: IncomingWebhookOptions<T>) => void;
         reset: () => void;
         calls: Array<IncomingWebhookCall<T>>;
+        shutdown: () => void;
     }
 
     interface IncomingWebhookOptions<T> {

@@ -26,6 +26,11 @@ incomingWebhooks.addResponse = function (opts) {
   customResponses.set('incoming-webhooks', opts)
 }
 
+incomingWebhooks.shutdown = function () {
+  logger.debug(`shutting down incoming-webhooks`)
+  nock(baseUrl).done
+}
+
 function reply (path, requestBody) {
   const url = `${baseUrl}${path}`
 

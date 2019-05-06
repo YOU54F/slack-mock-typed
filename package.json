@@ -1,6 +1,6 @@
 {
   "name": "slack-mocker",
-  "version": "1.2.7",
+  "version": "1.2.9",
   "description": "Slack API mocker",
   "main": "index.js",
   "scripts": {
@@ -33,7 +33,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Skellington-Closet/slack-mock.git"
+    "url": "git+https://github.com/you54f/slack-mocker.git"
   },
   "dependencies": {
     "express": "^4.16.4",

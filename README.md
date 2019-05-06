@@ -388,9 +388,6 @@ Each call will contain:
 
 Resets all mocks. A convenience method for calling reset on individual API mocks.
 
-# Typescript typings
-> `npm install --save @types/slack-mock`
-
 # Summary
 This package contains type definitions for slack-mock (https://github.com/Skellington-Closet/slack-mock).
 
