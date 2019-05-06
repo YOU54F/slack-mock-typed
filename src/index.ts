@@ -1,11 +1,12 @@
 "use strict";
 
-import logger = require("./lib/logger");
-import incomingWebhooks = require("./mocker/incoming-webhooks");
+import * as nock from "nock";
+import { logger } from "./lib/logger";
+import * as incomingWebhooks from "./mocker/incoming-webhooks";
 
-module.exports.instance;
+// module.exports.instance as Instance;
 
-module.exports = function(config) {
+module.exports = (config: { rtmPort?: number; logLevel?: string }) => {
   if (module.exports.instance) {
     return module.exports.instance;
   }
@@ -31,3 +32,31 @@ module.exports = function(config) {
 
   return module.exports.instance;
 };
+
+interface Instance {
+  incomingWebhooks: IncomingWebhooks<any>;
+  reset: () => void;
+}
+// Incoming Webhooks
+
+type IncomingWebhookUrl = string;
+type IncomingWebhookHttpHeaders = nock.HttpHeaders;
+
+interface IncomingWebhooks<T> {
+  addResponse: (opts: IncomingWebhookOptions<T>) => void;
+  reset: () => void;
+  calls: Array<IncomingWebhookCall<T>>;
+}
+
+interface IncomingWebhookOptions<T> {
+  url?: IncomingWebhookUrl;
+  statusCode?: number;
+  body?: T;
+  headers?: IncomingWebhookHttpHeaders;
+}
+
+interface IncomingWebhookCall<T> {
+  url: IncomingWebhookUrl;
+  params: T;
+  headers: IncomingWebhookHttpHeaders;
+}

@@ -1,0 +1,11 @@
+coverage
+examples
+test
+.gitignore
+.travis.yml
+*.log
+yarn.lock
+src
+.nyc_output
+tslint.json 
+tsconfig.json

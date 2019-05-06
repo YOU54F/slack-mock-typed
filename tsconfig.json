@@ -6,6 +6,8 @@
     "moduleResolution": "node",
     "module": "commonjs",
     "noImplicitAny": true,
-    "noUnusedLocals": false
+    "noUnusedLocals": false,
+    "declaration": true,
+
   }
 }

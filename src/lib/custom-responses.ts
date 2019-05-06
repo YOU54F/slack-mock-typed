@@ -1,11 +1,15 @@
 "use strict";
 
-import logger = require("./logger");
+import { logger } from "./logger";
+
 const allResponses = new Map();
 
 allResponses.set("incoming-webhooks", new Map());
 
-export function set(type: string, opts: { url: string; statusCode: any; body: any; headers: any; }) {
+export function set(
+  type: string,
+  opts: { url: string; statusCode: any; body: any; headers: any }
+) {
   const typeResponses = allResponses.get(type);
   if (!opts.url) {
     opts.url = "any";
@@ -25,9 +29,9 @@ export function set(type: string, opts: { url: string; statusCode: any; body: an
     body: opts.body || (type === "web" ? { ok: true } : "OK"),
     headers: opts.headers || {}
   });
-};
+}
 
-export function get(type: string, url: string){
+export function get(type: string, url: string) {
   const defaultResponse = { statusCode: 200, body: "OK", headers: {} };
   let response = defaultResponse;
 
@@ -42,16 +46,16 @@ export function get(type: string, url: string){
   }
 
   return [response.statusCode, response.body, response.headers];
-};
+}
 
-export function reset(type: string){
+export function reset(type: string) {
   logger.debug(`clearing responses for ${type}`);
   allResponses.get(type).clear();
-};
+}
 
-export function resetAll(){
+export function resetAll() {
   for (const key of allResponses.keys()) {
     logger.debug(`clearing responses for ${key}`);
     allResponses.get(key).clear();
   }
-};
+}
