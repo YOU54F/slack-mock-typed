@@ -41,11 +41,11 @@ Slack App. You can run the examples with `npm run examples`.
 ```js
 const payload = {...}
 
-return slackMock.events.send('http://localhost:9000/event', payload)
+return SlackMocker.events.send('http://localhost:9000/event', payload)
   .then(delay(50))
   .then(() => {
-    expect(slackMock.events.calls).to.have.length(1)
-    const firstCall = slackMock.events.calls[0]
+    expect(SlackMocker.events.calls).to.have.length(1)
+    const firstCall = SlackMocker.events.calls[0]
     expect(firstCall.statusCode).to.equal(200)
   })
 ```
@@ -54,7 +54,7 @@ return slackMock.events.send('http://localhost:9000/event', payload)
 
 ```js
 // incoming webhooks
-const firstCall = slackMock.incomingWebhooks.calls[0]
+const firstCall = SlackMocker.incomingWebhooks.calls[0]
 expect(firstCall.params.text).to.equal('hello world')
 ```
 
@@ -63,13 +63,13 @@ expect(firstCall.params.text).to.equal('hello world')
 ```js
 const payload = {...}
 
-slackMock.interactiveButtons.addResponse({statusCode: 201})
+SlackMocker.interactiveButtons.addResponse({statusCode: 201})
 
-return slackMock.interactiveButtons.send('http://localhost:9000/button', payload)
+return SlackMocker.interactiveButtons.send('http://localhost:9000/button', payload)
   .then(delay(75))
   .then(() => {
-    expect(slackMock.interactiveButtons.calls).to.have.length(2)
-    const responseUrlCall = _.find(slackMock.interactiveButtons.calls, {type: 'response_url'})
+    expect(SlackMocker.interactiveButtons.calls).to.have.length(2)
+    const responseUrlCall = _.find(SlackMocker.interactiveButtons.calls, {type: 'response_url'})
     expect(responseUrlCall.params.text).to.equal('GO CUBS')
   })
 ```
@@ -79,11 +79,11 @@ return slackMock.interactiveButtons.send('http://localhost:9000/button', payload
 ```js
 const payload = {...}
 
-return slackMock.outgoingWebhooks.send('http://localhost:9000/outgoing', payload)
+return SlackMocker.outgoingWebhooks.send('http://localhost:9000/outgoing', payload)
   .then(delay(50))
   .then(() => {
-    expect(slackMock.outgoingWebhooks.calls).to.have.length(1)
-    const firstCall = slackMock.outgoingWebhooks.calls[0]
+    expect(SlackMocker.outgoingWebhooks.calls).to.have.length(1)
+    const firstCall = SlackMocker.outgoingWebhooks.calls[0]
     expect(firstCall.params.text).to.equal('GO CUBS')
   })
 ```
@@ -91,11 +91,11 @@ return slackMock.outgoingWebhooks.send('http://localhost:9000/outgoing', payload
 ### RTM
 
 ```js
-return slackMock.rtm.send({token: 'abc123', type: 'message', channel: 'mockChannel', user: 'usr', text: 'hello'})
+return SlackMocker.rtm.send({token: 'abc123', type: 'message', channel: 'mockChannel', user: 'usr', text: 'hello'})
   .then(delay(50))
   .then(() => {
-    expect(slackMock.rtm.calls).to.have.length(1)
-    expect(slackMock.rtm.calls[0].message.text).to.equal('GO CUBS')
+    expect(SlackMocker.rtm.calls).to.have.length(1)
+    expect(SlackMocker.rtm.calls[0].message.text).to.equal('GO CUBS')
   })
 ```
 
@@ -104,12 +104,12 @@ return slackMock.rtm.send({token: 'abc123', type: 'message', channel: 'mockChann
 ```js
 const payload = {...}
 
-return slackMock.slashCommands.send('http://localhost:9000/slash', payload)
+return SlackMocker.slashCommands.send('http://localhost:9000/slash', payload)
   .then(delay(75))
   .then(() => {
-    expect(slackMock.slashCommands.calls).to.have.length(2)
+    expect(SlackMocker.slashCommands.calls).to.have.length(2)
 
-    const responseUrlCall = _.find(slackMock.slashCommands.calls, {type: 'response_url'})
+    const responseUrlCall = _.find(SlackMocker.slashCommands.calls, {type: 'response_url'})
     expect(responseUrlCall.params.text).to.equal('GO CUBS')
     expect(responseUrlCall.params.response_type).to.equal('ephemeral')
   })
@@ -121,7 +121,7 @@ return slackMock.slashCommands.send('http://localhost:9000/slash', payload)
 ```js
 const botToken = 'xoxb-XXXXXXXXXXXX-TTTTTTTTTTTTTT'
 
-slackMock.web.addResponse({
+SlackMocker.web.addResponse({
   url: 'https://slack.com/api/oauth.access',
   statusCode: 200,
   body: {
@@ -136,7 +136,7 @@ slackMock.web.addResponse({
   }
 })
 
-slackMock.web.addResponse({
+SlackMocker.web.addResponse({
   url: 'https://slack.com/api/rtm.start',
   statusCode: 200,
   body: {
@@ -165,12 +165,12 @@ request({
 
   return delay(250) // wait for oauth flow to complete, rtm to be established
     .then(() => {
-      return slackMock.rtm.send(botToken, {type: 'message', channel: 'mockChannel', user: 'usr', text: 'hello'})
+      return SlackMocker.rtm.send(botToken, {type: 'message', channel: 'mockChannel', user: 'usr', text: 'hello'})
     })
     .then(delay(20))
     .then(() => {
-      expect(slackMock.rtm.calls).to.have.length(1)
-      expect(slackMock.rtm.calls[0].message.text).to.equal('GO CUBS')
+      expect(SlackMocker.rtm.calls).to.have.length(1)
+      expect(SlackMocker.rtm.calls[0].message.text).to.equal('GO CUBS')
     })
     .then(() => done(), (e) => done(e))
 })
@@ -205,7 +205,7 @@ You can start and stop the RTM server using the same access token. These methods
 
 The exported function used to start the Slack Mock server. Returns an instance of the server.
 
-Slack Mock is a singleton so can only be configured once per process. Subsequent calls to slackMock() will return
+Slack Mock is a singleton so can only be configured once per process. Subsequent calls to SlackMocker() will return
 the same instance.
 
 Config options are: 
@@ -216,7 +216,7 @@ Config options are:
 
 ### `instance`
 
-The configured instance of the Slack Mock `slackMock.instance` object. This is the same object returned from `require('slack-mock')(config)`.
+The configured instance of the Slack Mock `SlackMocker.instance` object. This is the same object returned from `require('slack-mock')(config)`.
 
 ---
 

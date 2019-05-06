@@ -6,9 +6,9 @@ import { logger } from "./lib/logger";
 // tslint:disable-next-line: prefer-const
 let instance: Instance;
 
-export = SlackMock;
+export = SlackMocker;
 
-function SlackMock(config: ConfigOptions) {
+function SlackMocker(config: ConfigOptions) {
   config = config || {};
 
   if (config.logLevel) {
