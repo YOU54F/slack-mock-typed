@@ -2,15 +2,13 @@
 
 import * as nock from "nock";
 import { logger } from "./lib/logger";
-import * as incomingWebhooks from "./mocker/incoming-webhooks";
 
-// module.exports.instance as Instance;
+// tslint:disable-next-line: prefer-const
+let instance: Instance;
 
-module.exports = (config: { rtmPort?: number; logLevel?: string }) => {
-  if (module.exports.instance) {
-    return module.exports.instance;
-  }
+export = SlackMock;
 
+function SlackMock(config: ConfigOptions) {
   config = config || {};
 
   if (config.logLevel) {
@@ -19,25 +17,18 @@ module.exports = (config: { rtmPort?: number; logLevel?: string }) => {
 
   logger.info("slack-mock running");
 
-  module.exports.instance = {
-    incomingWebhooks: {
-      addResponse: incomingWebhooks.addResponse,
-      reset: incomingWebhooks.reset,
-      calls: incomingWebhooks.calls
-    },
-    reset() {
-      incomingWebhooks.reset();
-    }
-  };
-
-  return module.exports.instance;
-};
+  return instance;
+}
 
 interface Instance {
   incomingWebhooks: IncomingWebhooks<any>;
   reset: () => void;
 }
-// Incoming Webhooks
+
+interface ConfigOptions {
+  rtmPort?: number;
+  logLevel?: string;
+}
 
 type IncomingWebhookUrl = string;
 type IncomingWebhookHttpHeaders = nock.HttpHeaders;

@@ -1,6 +1,6 @@
 "use strict";
 
-const incomingWebhooks = module.exports as IncomingWebhooks<[]>;
+export const incomingWebhooks = module.exports as IncomingWebhooks<[]>;
 import * as nock from "nock";
 import * as customResponses from "../lib/custom-responses";
 import { logger } from "../lib/logger";
@@ -11,30 +11,30 @@ type IncomingWebhookUrl = string;
 type IncomingWebhookHttpHeaders = nock.HttpHeaders;
 
 // Slack accepts both GET and POST requests, will intercept API and OAuth calls
+
 nock(baseUrl)
   .persist()
   .post(/.*/, () => true)
   .reply(reply);
 
-export function calls() {
-  return [] as Array<IncomingWebhookCall<[]>>;
-}
+incomingWebhooks.calls = [];
 
-export function reset() {
+incomingWebhooks.reset = () => {
   logger.debug(`resetting incoming-webhooks`);
 
   customResponses.reset("incoming-webhooks");
   incomingWebhooks.calls.splice(0, incomingWebhooks.calls.length);
-}
+};
 
-export function addResponse(opts: {
-  url: IncomingWebhookUrl;
-  statusCode: number;
-  body: [];
-  headers: IncomingWebhookHttpHeaders;
-}) {
+incomingWebhooks.addResponse = opts => {
+  logger.debug(`adding incoming-webhook response` + opts);
   customResponses.set("incoming-webhooks", opts);
-}
+};
+
+incomingWebhooks.shutdown = () => {
+  logger.debug(`shutting down incoming-webhooks`);
+  nock(baseUrl).done();
+};
 
 function reply(path: string, requestBody: string) {
   const url = `${baseUrl}${path}`;
@@ -44,23 +44,24 @@ function reply(path: string, requestBody: string) {
   incomingWebhooks.calls.push({
     url,
     params: parseParams(path, requestBody) as [],
-    headers: this.req.headers
+    headers: {}
   });
 
-  return customResponses.get("incoming-webhooks", url);
+  return customResponses.get("incoming-webhooks", url) as Array<{}>;
 }
 
 interface IncomingWebhooks<T> {
   addResponse: (opts: IncomingWebhookOptions<T>) => void;
   reset: () => void;
+  shutdown: () => void;
   calls: Array<IncomingWebhookCall<T>>;
 }
 
 interface IncomingWebhookOptions<T> {
-  url?: IncomingWebhookUrl;
-  statusCode?: number;
-  body?: T;
-  headers?: IncomingWebhookHttpHeaders;
+  url: IncomingWebhookUrl;
+  statusCode: number;
+  body: T;
+  headers: IncomingWebhookHttpHeaders;
 }
 
 interface IncomingWebhookCall<T> {
