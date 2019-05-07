@@ -2,7 +2,8 @@
   "name": "slack-mocker",
   "version": "2.0.1",
   "description": "Slack API mocker",
-  "main": "index.js",
+  "main": "build/index.js",
+  "typings": "lib/index",
   "scripts": {
     "build": "tsc",
     "test": "istanbul cover --report lcov --dir ./coverage/ _mocha --recursive ./test/ --grep ./test/**/*.spec.js -- --colors --reporter spec",
