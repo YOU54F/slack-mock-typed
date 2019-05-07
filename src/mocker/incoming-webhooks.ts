@@ -20,11 +20,6 @@ incomingWebhooks.start = () => {
     .post(/.*/, () => true)
     .reply(reply);
 };
-incomingWebhooks.shutdown = () => {
-  logger.info(`starting mock`);
-
-  nock(baseUrl).persist(false);
-};
 
 incomingWebhooks.calls = [];
 
@@ -41,8 +36,9 @@ incomingWebhooks.addResponse = opts => {
 };
 
 incomingWebhooks.shutdown = () => {
-  logger.debug(`shutting down incoming-webhooks`);
-  nock(baseUrl).done();
+  logger.info(`shutting down incoming-webhooks`);
+  nock.cleanAll();
+  nock.restore();
 };
 
 function reply(path: string, requestBody: string) {

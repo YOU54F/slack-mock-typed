@@ -52,7 +52,7 @@ describe("mocker: incoming webhooks", function() {
     customResponsesMock.set.reset();
     customResponsesMock.reset.reset();
     customResponsesMock.get.returns(200, "OK", {});
-
+    incomingWebhooks.start()
     incomingWebhooks.reset();
   });
 
@@ -132,4 +132,25 @@ describe("mocker: incoming webhooks", function() {
       });
     });
   });
+
+  describe.only("shut down", function() {
+    let url;
+
+    beforeEach(function() {
+      url = "https://hooks.slack.com/reset";
+    });
+
+    it("should fail to receive a call as the nock is not running", function(done) {
+
+
+      sendToUrl(url, {}, () => {
+        expect(incomingWebhooks.calls).to.have.length(1);
+        incomingWebhooks.reset();
+        expect(incomingWebhooks.calls).to.have.length(0);
+
+        done();
+      });
+    });
+  });
+
 });

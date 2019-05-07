@@ -14,10 +14,6 @@ exports.incomingWebhooks.start = () => {
         .post(/.*/, () => true)
         .reply(reply);
 };
-exports.incomingWebhooks.shutdown = () => {
-    logger_1.logger.info(`starting mock`);
-    nock(baseUrl).persist(false);
-};
 exports.incomingWebhooks.calls = [];
 exports.incomingWebhooks.reset = () => {
     logger_1.logger.debug(`resetting incoming-webhooks`);
@@ -29,8 +25,9 @@ exports.incomingWebhooks.addResponse = opts => {
     customResponses.set("incoming-webhooks", opts);
 };
 exports.incomingWebhooks.shutdown = () => {
-    logger_1.logger.debug(`shutting down incoming-webhooks`);
-    nock(baseUrl).done();
+    logger_1.logger.info(`shutting down incoming-webhooks`);
+    nock.cleanAll();
+    nock.restore();
 };
 function reply(path, requestBody) {
     const url = `${baseUrl}${path}`;
