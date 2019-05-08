@@ -7,13 +7,11 @@ const logger_1 = require("../lib/logger");
 const utils_1 = require("../lib/utils");
 const baseUrl = "https://hooks.slack.com";
 // Slack accepts both GET and POST requests, will intercept API and OAuth calls
-exports.incomingWebhooks.start = () => {
-    logger_1.logger.info(`starting mock`);
-    nock(baseUrl)
-        .persist()
-        .post(/.*/, () => true)
-        .reply(reply);
-};
+logger_1.logger.debug(`starting incoming-webhooks`);
+nock(baseUrl)
+    .persist()
+    .post(/.*/, () => true)
+    .reply(reply);
 exports.incomingWebhooks.calls = [];
 exports.incomingWebhooks.reset = () => {
     logger_1.logger.debug(`resetting incoming-webhooks`);
@@ -25,9 +23,9 @@ exports.incomingWebhooks.addResponse = opts => {
     customResponses.set("incoming-webhooks", opts);
 };
 exports.incomingWebhooks.shutdown = () => {
-    logger_1.logger.info(`shutting down incoming-webhooks`);
+    logger_1.logger.debug(`cleaning incoming-webhooks`);
     nock.cleanAll();
-    nock.restore();
+    nock(baseUrl).persist(false);
 };
 function reply(path, requestBody) {
     const url = `${baseUrl}${path}`;

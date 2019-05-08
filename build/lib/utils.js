@@ -6,6 +6,7 @@ function parseParams(path, requestBody) {
     let body = requestBody;
     let queryString = {};
     const pathParts = path.split("?");
+    logger_1.logger.debug(requestBody);
     if (pathParts[1]) {
         if (typeof requestBody === "string") {
             // parses content-type application/x-www-form-urlencoded

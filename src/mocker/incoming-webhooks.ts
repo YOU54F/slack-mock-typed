@@ -12,14 +12,11 @@ type IncomingWebhookHttpHeaders = nock.HttpHeaders;
 
 // Slack accepts both GET and POST requests, will intercept API and OAuth calls
 
-incomingWebhooks.start = () => {
-  logger.info(`starting mock`);
-
-  nock(baseUrl)
-    .persist()
-    .post(/.*/, () => true)
-    .reply(reply);
-};
+logger.debug(`starting incoming-webhooks`);
+nock(baseUrl)
+  .persist()
+  .post(/.*/, () => true)
+  .reply(reply);
 
 incomingWebhooks.calls = [];
 
@@ -36,9 +33,9 @@ incomingWebhooks.addResponse = opts => {
 };
 
 incomingWebhooks.shutdown = () => {
-  logger.info(`shutting down incoming-webhooks`);
+  logger.debug(`cleaning incoming-webhooks`);
   nock.cleanAll();
-  nock.restore();
+  nock(baseUrl).persist(false);
 };
 
 function reply(path: string, requestBody: string) {

@@ -7,7 +7,7 @@ export default function parseParams(path: string, requestBody: string) {
   let body: {} = requestBody;
   let queryString: {} = {};
   const pathParts = path.split("?");
-
+  logger.debug(requestBody);
   if (pathParts[1]) {
     if (typeof requestBody === "string") {
       // parses content-type application/x-www-form-urlencoded

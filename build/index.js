@@ -1,13 +1,24 @@
-"use strict";
+'use strict';
 const logger_1 = require("./lib/logger");
-// tslint:disable-next-line: prefer-const
-let instance;
+const incoming_webhooks_1 = require("./mocker/incoming-webhooks");
 function SlackMocker(config) {
     config = config || {};
     if (config.logLevel) {
-        logger_1.logger.level = config.logLevel;
+        process.env.LOG_LEVEL = config.logLevel;
     }
-    logger_1.logger.info("slack-mock running");
-    return instance;
+    logger_1.logger.info('slack-mock running');
+    module.exports.instance = {
+        incomingWebhooks: {
+            addResponse: incoming_webhooks_1.incomingWebhooks.addResponse,
+            reset: incoming_webhooks_1.incomingWebhooks.reset,
+            calls: incoming_webhooks_1.incomingWebhooks.calls,
+            start: incoming_webhooks_1.incomingWebhooks.start,
+            shutdown: incoming_webhooks_1.incomingWebhooks.shutdown
+        },
+        reset() {
+            incoming_webhooks_1.incomingWebhooks.reset();
+        }
+    };
+    return module.exports.instance;
 }
 module.exports = SlackMocker;

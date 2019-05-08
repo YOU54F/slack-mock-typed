@@ -1,12 +1,11 @@
 import * as nock from "nock";
 export = SlackMocker;
-declare function SlackMocker(config: ConfigOptions): Instance;
+declare function SlackMocker(config?: ConfigOptions): Instance;
 interface Instance {
     incomingWebhooks: IncomingWebhooks<any>;
     reset: () => void;
 }
 interface ConfigOptions {
-    rtmPort?: number;
     logLevel?: string;
 }
 declare type IncomingWebhookUrl = string;
@@ -14,6 +13,8 @@ declare type IncomingWebhookHttpHeaders = nock.HttpHeaders;
 interface IncomingWebhooks<T> {
     addResponse: (opts: IncomingWebhookOptions<T>) => void;
     reset: () => void;
+    shutdown: () => void;
+    start: () => void;
     calls: Array<IncomingWebhookCall<T>>;
 }
 interface IncomingWebhookOptions<T> {

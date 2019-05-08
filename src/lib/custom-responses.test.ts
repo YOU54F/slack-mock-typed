@@ -1,29 +1,25 @@
 "use strict";
 
-const chai = require("chai");
-const expect = chai.expect;
-const sinon = require("sinon");
-const proxyquire = require("proxyquire").noCallThru();
+import * as proxyquire from "proxyquire";
+import * as sinon from "sinon";
 
-chai.use(require("sinon-chai"));
+describe("custom responses", () => {
+  let loggerMock: any;
+  let customResponses: any;
 
-describe("custom responses", function() {
-  let loggerMock;
-  let customResponses;
-
-  before(function() {
+  beforeEach(() => {
     loggerMock = {
       error: sinon.stub(),
       info: sinon.stub(),
       debug: sinon.stub()
     };
 
-    customResponses = proxyquire("../../build/lib/custom-responses", {
-      "../../build/lib/logger": loggerMock
+    customResponses = proxyquire("./custom-responses.ts", {
+      "./logger": loggerMock
     });
   });
 
-  beforeEach(function() {
+  beforeEach(() => {
     loggerMock.error.reset();
     loggerMock.info.reset();
     loggerMock.debug.reset();
@@ -31,8 +27,8 @@ describe("custom responses", function() {
     customResponses.resetAll();
   });
 
-  describe("set", function() {
-    it("should default body to OK", function() {
+  describe("set", () => {
+    it("should default body to OK", () => {
       const opts = {
         url: "set.walter.white",
         statusCode: 404
@@ -41,21 +37,20 @@ describe("custom responses", function() {
       customResponses.set("incoming-webhooks", opts);
       expect(
         customResponses.get("incoming-webhooks", "set.walter.white")[1]
-      ).to.equal("OK");
+      ).toEqual("OK");
     });
   });
 
-  describe("get", function() {
-    it("should get a default response", function() {
+  describe("get", () => {
+    it("should get a default response", () => {
       expect(
         customResponses.get("incoming-webhooks", "get.walter.white")
-      ).to.deep.equal([200, "OK", {}]);
+      ).toMatchObject([200, "OK", {}]);
     });
   });
 
-  describe("reset", function() {
-    it("should clear responses for a type", function() {
-
+  describe("reset", () => {
+    it("should clear responses for a type", () => {
       customResponses.set("incoming-webhooks", {
         url: "reset.walter.white",
         statusCode: 202
@@ -63,14 +58,12 @@ describe("custom responses", function() {
 
       expect(
         customResponses.get("incoming-webhooks", "reset.walter.white")[0]
-      ).to.equal(202);
+      ).toEqual(202);
     });
   });
 
-  describe("resetAll", function() {
-    beforeEach(function() {});
-
-    it("should clear responses for all types", function() {
+  describe("resetAll", () => {
+    it("should clear responses for all types", () => {
       customResponses.set("incoming-webhooks", {
         url: "reset.walter.white",
         statusCode: 202
@@ -80,7 +73,7 @@ describe("custom responses", function() {
 
       expect(
         customResponses.get("incoming-webhooks", "reset.walter.white")[0]
-      ).to.equal(200);
+      ).toEqual(200);
     });
   });
 });
