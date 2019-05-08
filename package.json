@@ -9,14 +9,30 @@
     "test": "jest",
     "ci": "npm run build && npm test && cat coverage/lcov.info | coveralls"
   },
-  "author": "",
+  "authors": [    {
+    "name": "Yousaf Nabi",
+    "url": "https://github.com/YOU54F",
+    "githubUsername": "YOU54F"
+  }],
+  "contributors": [
+    {
+      "name": "Cole Furfaro-Strode",
+      "url": "https://github.com/Skellington-Closet",
+      "githubUsername": "Skellington-Closet"
+    },
+    {
+      "name": "Kris Kalavantavanich",
+      "url": "https://github.com/kkalavantavanich",
+      "githubUsername": "kkalavantavanich"
+    }
+  ],
   "license": "MIT",
   "engines": {
     "node": ">=6.0.0"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/you54f/slack-mocker.git"
+    "url": "git+https://github.com/you54f/slack-mock-typed.git"
   },
   "dependencies": {
     "qs": "^6.3.0",

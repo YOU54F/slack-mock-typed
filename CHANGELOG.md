@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Republished
 
-## [2.0.0](https://github.com/you54f/slack-mocker/)
+## [2.0.0](https://github.com/you54f/slack-mock-typed/)
 
 - Rewrite of Webhook implementation in typescript.
 
