@@ -9,3 +9,4 @@ src
 .nyc_output
 tslint.json 
 tsconfig.json
+jest.config.js
