@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Skellington-Closet/slack-mocker.git"
+    "url": "git+https://github.com/you54f/slack-mocker.git"
   },
   "dependencies": {
     "qs": "^6.3.0",

@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 const logger_1 = require("./lib/logger");
 const incoming_webhooks_1 = require("./mocker/incoming-webhooks");
 function SlackMocker(config) {
@@ -6,7 +6,7 @@ function SlackMocker(config) {
     if (config.logLevel) {
         process.env.LOG_LEVEL = config.logLevel;
     }
-    logger_1.logger.info('slack-mock running');
+    logger_1.logger.info("slack-mock running");
     module.exports.instance = {
         incomingWebhooks: {
             addResponse: incoming_webhooks_1.incomingWebhooks.addResponse,
