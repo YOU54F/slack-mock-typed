@@ -4,9 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [1.1.1](https://github.com/Skellington-Closet/slack-mock/compare/v1.1.0...v1.1.1)
+### Republished
+
+## [2.0.0](https://github.com/you54f/slack-mock-typed/)
+
+- Rewrite of Webhook implementation in typescript.
+
 
 ### Fixed
+
+## [1.1.1](https://github.com/Skellington-Closet/slack-mock/compare/v1.1.0...v1.1.1)
 
 - Closes the express server when the RTM websocket server is closed. Thanks for the PR [finferflu](https://github.com/finferflu)!
 

@@ -1,6 +1,12 @@
-test
-examples
 coverage
-.nyc_output
-yarn.lock
+examples
+test
+.gitignore
 .travis.yml
+*.log
+yarn.lock
+src
+.nyc_output
+tslint.json 
+tsconfig.json
+jest.config.js
