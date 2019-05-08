@@ -4,7 +4,7 @@ import * as nock from "nock";
 import { logger } from "./lib/logger";
 import { incomingWebhooks } from "./mocker/incoming-webhooks";
 
-export = SlackMocker;
+export default SlackMocker;
 
 function SlackMocker(config?: ConfigOptions): Instance {
   config = config || {};
