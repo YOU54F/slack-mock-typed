@@ -66,7 +66,7 @@
     "typescript": "^3.4.5"
   },
   "lint-staged": {
-    "src/**/**.ts": [
+    "src/**/*": [
       "prettier --write",
       "tslint --fix",
       "git add"
