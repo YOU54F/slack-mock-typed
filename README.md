@@ -1,6 +1,7 @@
 # slack-mock
 
-[![Build Status](https://travis-ci.org/you54f/slack-mock-typed.svg?branch=master)](https://travis-ci.org/you54f/slack-mock-typed) 
+[![Build Status](https://travis-ci.org/YOU54F/slack-mock-typed.svg?branch=master)](https://travis-ci.org/YOU54F/slack-mock-typed)
+[![Coverage Status](https://coveralls.io/repos/github/YOU54F/slack-mock-typed/badge.svg?branch=master)](https://coveralls.io/github/YOU54F/slack-mock-typed?branch=master)
 
 A Slack API mocker for all your Slack bot and Slack app integration tests.
 
