@@ -1,15 +1,12 @@
 "use strict";
-
+import nock = require("nock");
 import { logger } from "./logger";
 
 const allResponses = new Map();
 
 allResponses.set("incoming-webhooks", new Map());
 
-export function set(
-  type: string,
-  opts: { url: string; statusCode: any; body: any; headers: any }
-) {
+export function set(type: string, opts: WebOptions<{}>) {
   const typeResponses = allResponses.get(type);
   if (!opts.url) {
     opts.url = "any";
@@ -58,4 +55,26 @@ export function resetAll() {
     logger.debug(`clearing responses for ${key}`);
     allResponses.get(key).clear();
   }
+}
+
+type WebUrl = string;
+type WebHttpHeaders = nock.HttpHeaders;
+
+export interface Web<T> {
+  addResponse: (opts: WebOptions<T>) => void;
+  reset: () => void;
+  calls: Array<WebCall<T>>;
+}
+
+export interface WebOptions<T> {
+  url?: WebUrl;
+  statusCode?: number;
+  body?: T;
+  headers?: WebHttpHeaders;
+}
+
+export interface WebCall<T> {
+  url: WebUrl;
+  params: T;
+  headers: WebHttpHeaders;
 }
