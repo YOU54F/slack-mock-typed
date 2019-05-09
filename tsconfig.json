@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
-    "outDir": "build",
+    "outDir": "./",
     "rootDir": "src",
-    "target": "es2015",
+    "target": "es6",
     "moduleResolution": "node",
     "module": "commonjs",
     "noImplicitAny": true,
     "noUnusedLocals": false,
     "declaration": true,
-  },
+    },
   "include": [
     "src/**/*"
   ],

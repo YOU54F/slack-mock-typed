@@ -27,6 +27,41 @@ describe("custom responses", () => {
     customResponses.resetAll();
   });
 
+  describe("set default response to type of web request with no body", () => {
+    it("should default body to OK", () => {
+      const type = "web";
+
+      customResponses.set("incoming-webhooks", { type });
+      expect(
+        customResponses.get("incoming-webhooks", "set.walter.white")[1]
+      ).toEqual("OK");
+    });
+  });
+
+  describe("set url", () => {
+    it("should default body to OK", () => {
+      const opts = {
+        url: "dave",
+        statusCode: 404
+      };
+
+      customResponses.set("incoming-webhooks", opts);
+      expect(customResponses.get("incoming-webhooks", "dave")[1]).toEqual("OK");
+    });
+  });
+  describe("set without url", () => {
+    it("should default body to OK", () => {
+      const opts = {
+        statusCode: 404
+      };
+
+      customResponses.set("incoming-webhooks", opts);
+      expect(
+        customResponses.get("incoming-webhooks", "set.walter.white")[1]
+      ).toEqual("OK");
+    });
+  });
+
   describe("set", () => {
     it("should default body to OK", () => {
       const opts = {
@@ -43,6 +78,7 @@ describe("custom responses", () => {
 
   describe("get", () => {
     it("should get a default response", () => {
+      customResponses.resetAll();
       expect(
         customResponses.get("incoming-webhooks", "get.walter.white")
       ).toMatchObject([200, "OK", {}]);

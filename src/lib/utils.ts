@@ -1,6 +1,6 @@
 "use strict";
 
-import qs = require("qs");
+import * as qs from "qs";
 import { logger } from "./logger";
 
 export default function parseParams(path: string, requestBody: string) {

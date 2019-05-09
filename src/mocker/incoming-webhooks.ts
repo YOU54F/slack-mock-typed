@@ -7,16 +7,16 @@ import { logger } from "../lib/logger";
 import parseParams from "../lib/utils";
 const baseUrl = "https://hooks.slack.com";
 
-type IncomingWebhookUrl = string;
-type IncomingWebhookHttpHeaders = nock.HttpHeaders;
-
 // Slack accepts both GET and POST requests, will intercept API and OAuth calls
 
 logger.debug(`starting incoming-webhooks`);
-nock(baseUrl)
-  .persist()
-  .post(/.*/, () => true)
-  .reply(reply);
+
+incomingWebhooks.start = () => {
+  return nock(baseUrl)
+    .persist()
+    .post(/.*/, () => true)
+    .reply(reply);
+};
 
 incomingWebhooks.calls = [];
 
@@ -30,12 +30,6 @@ incomingWebhooks.reset = () => {
 incomingWebhooks.addResponse = opts => {
   logger.debug(`adding incoming-webhook response` + opts);
   customResponses.set("incoming-webhooks", opts);
-};
-
-incomingWebhooks.shutdown = () => {
-  logger.debug(`cleaning incoming-webhooks`);
-  nock.cleanAll();
-  nock(baseUrl).persist(false);
 };
 
 function reply(path: string, requestBody: string) {
@@ -52,22 +46,24 @@ function reply(path: string, requestBody: string) {
   return customResponses.get("incoming-webhooks", url) as Array<{}>;
 }
 
-interface IncomingWebhooks<T> {
+export type IncomingWebhookUrl = string;
+export type IncomingWebhookHttpHeaders = nock.HttpHeaders;
+
+export interface IncomingWebhooks<T> {
   addResponse: (opts: IncomingWebhookOptions<T>) => void;
   reset: () => void;
   start: () => void;
-  shutdown: () => void;
   calls: Array<IncomingWebhookCall<T>>;
 }
 
-interface IncomingWebhookOptions<T> {
-  url: IncomingWebhookUrl;
-  statusCode: number;
-  body: T;
-  headers: IncomingWebhookHttpHeaders;
+export interface IncomingWebhookOptions<T> {
+  url?: IncomingWebhookUrl;
+  statusCode?: number;
+  body?: T;
+  headers?: IncomingWebhookHttpHeaders;
 }
 
-interface IncomingWebhookCall<T> {
+export interface IncomingWebhookCall<T> {
   url: IncomingWebhookUrl;
   params: T;
   headers: IncomingWebhookHttpHeaders;

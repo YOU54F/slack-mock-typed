@@ -30,8 +30,34 @@ To write a Slack Mock integration test queue up responses from Slack to your bot
 
 ```ts
 // incoming webhooks
-const firstCall = SlackMocker.incomingWebhooks.calls[0]
-expect(firstCall.params.text).to.equal('hello world')
+
+import * as SlackMock from "slack-mock-typed";
+const mock: SlackMock.Instance = SlackMock.SlackMocker({ logLevel: "debug" });
+
+function setup() {
+  beforeAll(async () => {
+    jest.setTimeout(60000);
+    await mock.incomingWebhooks.start();
+    await mock.incomingWebhooks.reset();
+  });
+
+  beforeEach(async () => {
+    jest.resetModules();
+    await mock.incomingWebhooks.reset();
+    expect(mock.incomingWebhooks.calls).toHaveLength(0);
+  });
+  afterEach(async () => {
+    await mock.incomingWebhooks.reset();
+  });
+}
+
+function returnMockedSlackWebhookCall() {
+  expect(mock.incomingWebhooks.calls).toHaveLength(1);
+  const firstCall = mock.incomingWebhooks.calls[0];
+  expect(firstCall.url).toEqual(process.env.SLACK_WEBHOOK_URL);
+  const body = firstCall.params;
+  return body;
+}
 ```
 
 ## API Conventions
