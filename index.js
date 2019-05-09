@@ -13,7 +13,7 @@ function SlackMocker(config) {
             addResponse: incoming_webhooks_1.incomingWebhooks.addResponse,
             reset: incoming_webhooks_1.incomingWebhooks.reset,
             calls: incoming_webhooks_1.incomingWebhooks.calls,
-            start: incoming_webhooks_1.incomingWebhooks.start,
+            start: incoming_webhooks_1.incomingWebhooks.start
         },
         reset() {
             incoming_webhooks_1.incomingWebhooks.reset();
@@ -22,4 +22,3 @@ function SlackMocker(config) {
     return module.exports.instance;
 }
 exports.SlackMocker = SlackMocker;
-;
