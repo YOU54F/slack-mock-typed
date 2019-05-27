@@ -59,7 +59,7 @@
     "proxyquire": "1.8.0",
     "sinon": "7.3.2",
     "ts-loader": "5.4.5",
-    "ts-node": "8.1.0",
+    "ts-node": "8.2.0",
     "tslint": "5.16.0",
     "tslint-config-prettier": "1.18.0",
     "tslint-no-focused-test": "0.5.0",
