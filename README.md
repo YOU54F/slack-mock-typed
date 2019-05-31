@@ -1,7 +1,12 @@
 # slack-mock
 
+![npm version](https://img.shields.io/npm/v/slack-mock-typed.svg)
+![npm](https://img.shields.io/npm/dm/slack-mock-typed.svg)
 [![Build Status](https://travis-ci.org/YOU54F/slack-mock-typed.svg?branch=master)](https://travis-ci.org/YOU54F/slack-mock-typed)
+[![Dependency Status](https://img.shields.io/david/you54f/mocha-junit-reporters.svg?style=flat-square)](https://david-dm.org/you54f/mocha-junit-reporters)
+[![devDependency Status](https://img.shields.io/david/dev/you54f/mocha-junit-reporters.svg?style=flat-square)](https://david-dm.org/you54f/mocha-junit-reporters#info=devDependencies)
 [![Coverage Status](https://coveralls.io/repos/github/YOU54F/slack-mock-typed/badge.svg?branch=master)](https://coveralls.io/github/YOU54F/slack-mock-typed?branch=master)
+
 
 A Slack API mocker for all your Slack bot and Slack app integration tests.
 
