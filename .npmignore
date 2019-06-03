@@ -13,3 +13,4 @@ jest.config.js
 scripts
 renovate.json
 commitlint.config.js
+slack-mock-typed.tar.gz
