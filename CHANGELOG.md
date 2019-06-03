@@ -1,10 +1,33 @@
-# Change Log
-All notable changes to this project will be documented in this file.
+# Changelog
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/) 
-and this project adheres to [Semantic Versioning](http://semver.org/).
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-### Republished
+### [2.1.2](https://github.com/you54f/slack-mock-typed/compare/v2.1.1...v2.1.2) (2019-06-03)
+
+
+
+### [2.1.1](https://github.com/you54f/slack-mock-typed/compare/v2.1.0...v2.1.1) (2019-06-03)
+
+
+
+## [2.1.0](https://github.com/you54f/slack-mock-typed/compare/v1.1.1...v2.1.0) (2019-06-03)
+
+
+### Build System
+
+* automated release pipeline ([4851fa3](https://github.com/you54f/slack-mock-typed/commit/4851fa3))
+
+
+### Features
+
+* add shutdown method to incoming webhooks ([bab4e30](https://github.com/you54f/slack-mock-typed/commit/bab4e30))
+* add shutdown method to incoming webhooks ([9a4b66b](https://github.com/you54f/slack-mock-typed/commit/9a4b66b))
+
+
+
+### 1.2.7 (2019-05-03)
+
+
 
 ## [2.0.0](https://github.com/you54f/slack-mock-typed/)
 
