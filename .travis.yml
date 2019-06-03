@@ -28,6 +28,7 @@ deploy:
       tags: true
       repo: YOU54F/slack-mock-typed
       branch: master
+      node: "8"
   - provider: script
     skip_cleanup: true
     script: ./scripts/publish.sh
