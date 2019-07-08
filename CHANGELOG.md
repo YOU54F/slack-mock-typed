@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/you54f/slack-mock-typed/compare/v1.1.1...v2.2.0) (2019-07-08)
+
+
+### Features
+
+* add shutdown method to incoming webhooks ([bab4e30](https://github.com/you54f/slack-mock-typed/commit/bab4e30))
+* add shutdown method to incoming webhooks ([9a4b66b](https://github.com/you54f/slack-mock-typed/commit/9a4b66b))
+
+
+
 ### [2.1.2](https://github.com/you54f/slack-mock-typed/compare/v2.1.1...v2.1.2) (2019-06-03)
 
 
