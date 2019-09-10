@@ -70,7 +70,7 @@
     "tslint": "5.20.0",
     "tslint-config-prettier": "1.18.0",
     "tslint-no-focused-test": "0.5.0",
-    "typescript": "3.6.2"
+    "typescript": "3.6.3"
   },
   "lint-staged": {
     "src/**/*": [
