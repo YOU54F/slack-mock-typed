@@ -62,7 +62,7 @@
     "proxyquire": "1.8.0",
     "jest": "24.9.0",
     "request": "2.88.0",
-    "sinon": "7.4.2",
+    "sinon": "7.5.0",
     "standard-version": "7.0.0",
     "ts-jest": "24.1.0",
     "ts-loader": "6.1.2",
