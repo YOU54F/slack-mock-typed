@@ -1,6 +1,6 @@
 {
   "name": "slack-mock-typed",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "description": "Slack API mocker written in TypeScript",
   "main": "index.js",
   "types": "index.d.ts",
