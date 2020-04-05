@@ -57,7 +57,7 @@
     "body-parser": "1.19.0",
     "coveralls": "3.0.9",
     "husky": "4.2.3",
-    "lint-staged": "10.1.1",
+    "lint-staged": "10.1.2",
     "prettier": "1.19.1",
     "proxyquire": "1.8.0",
     "jest": "25.2.7",
