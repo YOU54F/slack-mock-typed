@@ -4,7 +4,7 @@ export const incomingWebhooks = module.exports as IncomingWebhooks<[]>;
 import * as nock from "nock";
 import * as customResponses from "../lib/custom-responses";
 import { logger } from "../lib/logger";
-import parseParams from "../lib/utils";
+import * as utils from "../lib/utils";
 const baseUrl = "https://hooks.slack.com";
 
 // Slack accepts both GET and POST requests, will intercept API and OAuth calls
@@ -39,7 +39,7 @@ function reply(path: string, requestBody: string) {
 
   incomingWebhooks.calls.push({
     url,
-    params: parseParams(path, requestBody) as [],
+    params: utils.parseParams(path, requestBody) as [],
     headers: {}
   });
 

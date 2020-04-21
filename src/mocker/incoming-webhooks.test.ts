@@ -1,101 +1,59 @@
-import * as request from "request";
-import * as SlackMocker from "./incoming-webhooks";
+import { AxiosResponse } from "axios";
+import axios from "axios";
+import * as qs from "qs";
+import * as incomingWebhooksClient from "./incoming-webhooks";
 
-let mock: any;
+let mock: incomingWebhooksClient.IncomingWebhooks<{}>;
 
-function sendToUrl(url: string, body: {}, cb: any) {
-  request(
-    {
-      method: "POST",
-      uri: url,
-      json: true,
-      body
-    },
-    cb
-  );
+function sendToUrl(url: string, body: {}) {
+  return axios.post(url, body);
 }
 
 function setup() {
   beforeAll(async () => {
     jest.setTimeout(60000);
-    await SlackMocker.incomingWebhooks.start;
-    mock = await SlackMocker.incomingWebhooks;
+    mock = await incomingWebhooksClient.incomingWebhooks;
     await mock.start();
-    await mock.reset();
   });
 
   beforeEach(async () => {
-    jest.resetModules();
     await mock.reset();
-    expect(mock.calls).toHaveLength(0);
-  });
-  afterEach(async () => {
-    await mock.reset();
-    // await mock.shutdown();
     expect(mock.calls).toHaveLength(0);
   });
 }
-
-// function shutdown() {
-//   beforeAll(async () => {
-//     jest.setTimeout(60000);
-//     await SlackMocker.incomingWebhooks.start;
-//     mock = await SlackMocker.incomingWebhooks;
-//     await mock.start();
-//     await mock.reset();
-//   });
-
-//   beforeEach(async () => {
-//     jest.resetModules();
-//     await mock.reset();
-//     expect(mock.calls).toHaveLength(0);
-//   });
-//   afterEach(async () => {
-//     await mock.reset();
-//     // await mock.shutdown();
-//     expect(mock.calls).toHaveLength(0);
-//   });
-// }
 
 describe("calls", () => {
   setup();
   let url: string;
   url = "https://hooks.slack.com/calls";
 
-  it("should record calls", done => {
+  it("should record calls", () => {
     const body = {
       walter: "white"
     };
-    sendToUrl(url, body, () => {
+    const stringifiedBody = JSON.stringify(body);
+    return sendToUrl(url, body).then((response: AxiosResponse) => {
       expect(mock.calls).toHaveLength(1);
       const firstCall = mock.calls[0];
       expect(firstCall).toMatchObject({
         headers: {},
-        params: { walter: "white" },
+        params: stringifiedBody,
         url: "https://hooks.slack.com/calls"
       });
       expect(firstCall.url).toEqual(url);
-      expect(firstCall.params).toMatchObject({ walter: "white" });
+      expect(firstCall.params).toEqual(stringifiedBody);
       expect(firstCall.headers).toEqual({});
-      done();
     });
   });
 
-  it("should record a slack json object as application/x-www-form-urlencoded", done => {
-    const formBody = { walter: "white" };
-    request(
-      {
-        method: "POST",
-        uri: url,
-        form: formBody
-      },
-      () => {
-        expect(mock.calls).toHaveLength(1);
-        const firstCall = mock.calls[0];
-        expect(firstCall.params).toEqual("walter=white");
-        done();
-      }
-    );
+  it("should record a slack json object as application/x-www-form-urlencoded", () => {
+    const formBody = qs.stringify({ walter: "white" });
+
+    return sendToUrl(url, formBody).then((response: AxiosResponse) => {
+      expect(mock.calls).toHaveLength(1);
+      const firstCall = mock.calls[0];
+      expect(firstCall.params).toEqual("walter=white");
+    });
   });
 });
 
@@ -103,50 +61,60 @@ describe("reset", () => {
   setup();
   let url: string;
   url = "https://hooks.slack.com/reset";
-
-  it("should reset call count", done => {
-    sendToUrl(url, {}, () => {
+  const body = {
+    walter: "white"
+  };
+  it("should reset call count", () => {
+    return sendToUrl(url, body).then((response: AxiosResponse) => {
       expect(mock.calls).toHaveLength(1);
       mock.reset();
       expect(mock.calls).toHaveLength(0);
-      done();
     });
   });
 });
 
-describe("calls with params", () => {
+describe("addResponse", () => {
   setup();
   let url: string;
   url = "https://hooks.slack.com/addresponse";
 
-  it("should record calls", done => {
-    mock.addResponse({ foo: "bar" });
+  it("should add a custom response", () => {
+    const opts = {
+      url,
+      statusCode: 204,
+      body: { not: "ok" },
+      headers: { walter: "white" }
+    };
+
+    mock.addResponse(opts);
 
     const body = "body=string";
-    sendToUrl(url, {}, () => {
+    return sendToUrl(url, body).then((response: AxiosResponse) => {
       expect(mock.calls).toHaveLength(1);
       const firstCall = mock.calls[0];
       expect(firstCall).toMatchObject({
         headers: {},
-        params: {},
+        params: body,
         url: "https://hooks.slack.com/addresponse"
       });
       expect(firstCall.url).toEqual(url);
-      expect(firstCall.params).toMatchObject({});
+      expect(firstCall.params).toEqual(body);
       expect(firstCall.headers).toEqual({});
-      done();
+      expect(response.data).toEqual(opts.body);
+      expect(response.status).toEqual(opts.statusCode);
+      expect(Object.values(response.headers)).toContain(opts.headers.walter);
     });
   });
 });
 
-describe("adds url params to params list", () => {
+describe("params", () => {
   setup();
   let url: string;
   url = "https://hooks.slack.com/params?foo=bar";
 
-  it("should record calls", done => {
+  it("should add params", () => {
     const body = "body=string";
-    sendToUrl(url, body, () => {
+    return sendToUrl(url, body).then((response: AxiosResponse) => {
       expect(mock.calls).toHaveLength(1);
       const firstCall = mock.calls[0];
       expect(firstCall).toMatchObject({
@@ -157,29 +125,8 @@ describe("adds url params to params list", () => {
       expect(firstCall.url).toEqual(url);
       expect(firstCall.params).toMatchObject({ foo: "bar" });
       expect(firstCall.headers).toEqual({});
-      done();
-    });
-  });
-});
-
-describe("adds url params to params list", () => {
-  setup();
-  let url: string;
-  url = "https://hooks.slack.com/params?foo=bar";
-  it("should record calls", done => {
-    const body = "body=string";
-    sendToUrl(url, body, () => {
-      expect(mock.calls).toHaveLength(1);
-      const firstCall = mock.calls[0];
-      expect(firstCall).toMatchObject({
-        headers: {},
-        params: { body: "string", foo: "bar" },
-        url: "https://hooks.slack.com/params?foo=bar"
-      });
-      expect(firstCall.url).toEqual(url);
-      expect(firstCall.params).toMatchObject({ foo: "bar" });
-      expect(firstCall.headers).toEqual({});
-      done();
+      expect(response.data).toEqual("OK");
+      expect(response.status).toEqual(200);
     });
   });
 });

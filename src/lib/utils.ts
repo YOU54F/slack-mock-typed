@@ -3,7 +3,7 @@
 import * as qs from "qs";
 import { logger } from "./logger";
 
-export default function parseParams(path: string, requestBody: string) {
+export function parseParams(path: string, requestBody: string) {
   let body: {} = requestBody;
   let queryString: {} = {};
   const pathParts = path.split("?");
@@ -14,6 +14,7 @@ export default function parseParams(path: string, requestBody: string) {
       logger.debug(
         `parsing application/x-www-form-urlencoded body: ${requestBody}`
       );
+
       body = qs.parse(requestBody);
     }
     // query params from a GET request
@@ -33,7 +34,6 @@ export default function parseParams(path: string, requestBody: string) {
   }
 
   function typedKeys<T>(o: T): Array<keyof T> {
-    // type cast should be safe because that's what really Object.keys() does
     return Object.keys(o) as Array<keyof T>;
   }
 
