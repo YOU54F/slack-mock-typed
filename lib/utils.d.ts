@@ -1,1 +1,1 @@
-export default function parseParams(path: string, requestBody: string): {};
+export declare function parseParams(path: string, requestBody: string): {};

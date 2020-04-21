@@ -1,10 +1,10 @@
-"use strict";
 import nock = require("nock");
 import { logger } from "./logger";
 
 const allResponses = new Map();
 
 allResponses.set("incoming-webhooks", new Map());
+allResponses.set("web", new Map());
 
 export function set(type: string, opts: WebOptions<{}>) {
   const typeResponses = allResponses.get(type);
@@ -31,6 +31,10 @@ export function set(type: string, opts: WebOptions<{}>) {
 export function get(type: string, url: string) {
   const defaultResponse = { statusCode: 200, body: "OK", headers: {} };
   let response = defaultResponse;
+
+  if (type === "web") {
+    defaultResponse.body = JSON.stringify({ ok: true });
+  }
 
   let urlResponses = allResponses.get(type).get(url);
   if (!urlResponses) {

@@ -1,94 +1,85 @@
-import * as request from "request";
-import { SlackMocker } from "./index";
+import { Instance, SlackMocker } from "./index";
 
-let mock: any;
-
-function sendToUrl(url: string, body: {}, cb: any) {
-  request(
-    {
-      method: "POST",
-      uri: url,
-      json: true,
-      body
-    },
-    cb
-  );
-}
-
-function setup() {
-  beforeAll(async () => {
-    jest.setTimeout(60000);
-    mock = await SlackMocker({ logLevel: "info" }).incomingWebhooks;
-    await mock.start();
-  });
-
-  beforeEach(async () => {
-    jest.resetModules();
-    await mock.reset;
-    expect(mock.calls).toHaveLength(0);
-  });
-  afterEach(async () => {
-    await SlackMocker().reset();
-    expect(mock.calls).toHaveLength(0);
-  });
-}
-
-describe("it can call all the functions on incoming webhooks", () => {
-  setup();
-  let url: string;
-  url = "https://hooks.slack.com/calls";
-
-  it("should record calls", done => {
-    const body = {
-      walter: "white"
-    };
-    sendToUrl(url, body, () => {
-      expect(mock.calls).toHaveLength(1);
-      const firstCall = mock.calls[0];
-      expect(firstCall).toMatchObject({
-        headers: {},
-        params: { walter: "white" },
-        url: "https://hooks.slack.com/calls"
-      });
-      expect(firstCall.url).toEqual(url);
-      expect(firstCall.params).toMatchObject({ walter: "white" });
-      expect(firstCall.headers).toEqual({});
-      done();
-    });
-  });
-
-  it("should record a slack json object as application/x-www-form-urlencoded", done => {
-    const formBody = { walter: "white" };
-    request(
-      {
-        method: "POST",
-        uri: url,
-        form: formBody
-      },
-      () => {
-        expect(mock.calls).toHaveLength(1);
-        const firstCall = mock.calls[0];
-        expect(firstCall.params).toEqual("walter=white");
-        done();
-      }
-    );
-  });
+jest.mock("./index", () => {
+  return {
+    SlackMocker: jest.fn().mockImplementation(() => {
+      return {
+        events: {
+          send: jest.fn(),
+          reset: jest.fn(),
+          calls: []
+        },
+        incomingWebhooks: {
+          addResponse: jest.fn(),
+          reset: jest.fn(),
+          calls: [],
+          start: jest.fn()
+        },
+        web: {
+          addResponse: jest.fn(),
+          reset: jest.fn(),
+          calls: [],
+          start: jest.fn()
+        },
+        reset() {
+          this.events.reset();
+          this.incomingWebhooks.reset();
+        }
+      };
+    })
+  };
 });
 
-describe("reset", () => {
-  setup();
-  let url: string;
-  url = "https://hooks.slack.com/reset";
+describe("slack-mock", () => {
+  describe("api", () => {
+    let mockInstance: Instance;
+    let realInstance: Instance;
 
-  it("should reset call count", done => {
-    const body = {
-      walter: "white"
-    };
-    sendToUrl(url, {}, () => {
-      expect(mock.calls).toHaveLength(1);
-      mock.reset();
-      expect(mock.calls).toHaveLength(0);
-      done();
+    beforeEach(() => {
+      mockInstance = SlackMocker({ logLevel: "debug" });
+      const { SlackMocker: RealSlackMocker } = jest.requireActual("./index");
+      realInstance = new RealSlackMocker({ logLevel: "debug" });
+    });
+
+    it("mocks all api families", () => {
+      const apiFamilies = (clientInstance: Instance | Instance) =>
+        Object.keys(clientInstance);
+      const expectedApiFamilies = apiFamilies(realInstance);
+      const actualApiFamilies = apiFamilies(mockInstance);
+      expect(actualApiFamilies).toEqual(expectedApiFamilies);
+    });
+
+    it("should expose events api", () => {
+      const apiFamilies = (clientInstance: Instance | Instance) =>
+        Object.keys(clientInstance.events);
+      const expectedApiFamilies = apiFamilies(realInstance);
+      const actualApiFamilies = apiFamilies(mockInstance);
+      // [ 'send', 'reset', 'calls' ]
+      expect(actualApiFamilies).toEqual(expectedApiFamilies);
+    });
+
+    it("should expose incoming webhooks api", () => {
+      const apiFamilies = (clientInstance: Instance | Instance) =>
+        Object.keys(clientInstance.incomingWebhooks);
+      const expectedApiFamilies = apiFamilies(realInstance);
+      const actualApiFamilies = apiFamilies(mockInstance);
+      // [ 'addResponse', 'reset', 'calls', 'start' ]
+      expect(actualApiFamilies).toEqual(expectedApiFamilies);
+    });
+
+    it("should expose web api", () => {
+      const apiFamilies = (clientInstance: Instance | Instance) =>
+        Object.keys(clientInstance.web);
+      const expectedApiFamilies = apiFamilies(realInstance);
+      const actualApiFamilies = apiFamilies(mockInstance);
+      // [ 'addResponse', 'reset', 'calls' ]
+      expect(actualApiFamilies).toEqual(expectedApiFamilies);
+    });
+
+    it("should expose a reset method", () => {
+      mockInstance.reset();
+      expect(mockInstance.events.reset).toHaveBeenCalled();
+      expect(mockInstance.incomingWebhooks.reset).toHaveBeenCalled();
     });
   });
 });
