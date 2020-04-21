@@ -14,25 +14,25 @@ function SlackMocker(config) {
         events: {
             send: events_1.events.send,
             reset: events_1.events.reset,
-            calls: events_1.events.calls,
+            calls: events_1.events.calls
         },
         incomingWebhooks: {
             addResponse: incoming_webhooks_1.incomingWebhooks.addResponse,
             reset: incoming_webhooks_1.incomingWebhooks.reset,
             calls: incoming_webhooks_1.incomingWebhooks.calls,
-            start: incoming_webhooks_1.incomingWebhooks.start,
+            start: incoming_webhooks_1.incomingWebhooks.start
         },
         web: {
             addResponse: web_1.web.addResponse,
             reset: web_1.web.reset,
             calls: web_1.web.calls,
-            start: web_1.web.start,
+            start: web_1.web.start
         },
         reset() {
             events_1.events.reset();
             incoming_webhooks_1.incomingWebhooks.reset();
             web_1.web.reset();
-        },
+        }
     };
     return module.exports.instance;
 }

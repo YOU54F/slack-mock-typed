@@ -23,7 +23,7 @@ exports.web.reset = () => {
     exports.web.calls.splice(0, exports.web.calls.length);
     customResponses.reset("web");
 };
-exports.web.addResponse = (opts) => {
+exports.web.addResponse = opts => {
     customResponses.set("web", opts);
 };
 function reply(path, requestBody) {
@@ -33,7 +33,7 @@ function reply(path, requestBody) {
     exports.web.calls.push({
         url,
         params,
-        headers: this.req.headers,
+        headers: this.req.headers
     });
     const response = customResponses.get("web", url);
     // const responseBody = response[1]

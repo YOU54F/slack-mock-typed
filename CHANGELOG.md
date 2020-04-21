@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.3.0](https://github.com/you54f/slack-mock-typed/compare/v2.2.4...v2.3.0) (2020-04-21)
+
+
+### Features
+
+* add events and web api ([f6cae46](https://github.com/you54f/slack-mock-typed/commit/f6cae46d855783ac0919eaba255d6a575cbe241e))
+
 ### [2.2.4](https://github.com/you54f/slack-mock-typed/compare/v2.2.3...v2.2.4) (2020-02-12)
 
 

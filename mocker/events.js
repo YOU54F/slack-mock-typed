@@ -23,7 +23,7 @@ exports.events.send = (opts) => __awaiter(void 0, void 0, void 0, function* () {
             params: response.data.body,
             body: response.data.body,
             headers: response.headers,
-            statusCode: response.status,
+            statusCode: response.status
         });
         return Promise.resolve();
     })
