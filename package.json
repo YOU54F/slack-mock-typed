@@ -47,7 +47,7 @@
     "winston": "^2.3.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "8.3.5",
+    "@commitlint/cli": "9.1.2",
     "@commitlint/config-conventional": "8.3.4",
     "@types/jest": "25.2.3",
     "@types/nock": "10.0.3",
