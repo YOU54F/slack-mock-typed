@@ -61,7 +61,7 @@
     "husky": "4.3.0",
     "jest": "25.5.4",
     "lint-staged": "10.5.1",
-    "prettier": "2.1.2",
+    "prettier": "2.2.0",
     "proxyquire": "1.8.0",
     "sinon": "9.2.1",
     "standard-version": "8.0.2",
