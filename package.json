@@ -63,7 +63,7 @@
     "lint-staged": "10.5.3",
     "prettier": "2.2.1",
     "proxyquire": "1.8.0",
-    "sinon": "9.2.2",
+    "sinon": "9.2.3",
     "standard-version": "8.0.2",
     "ts-jest": "25.5.1",
     "ts-loader": "7.0.5",
